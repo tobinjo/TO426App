@@ -9,10 +9,10 @@ import java.util.List;
 
 public class Day {
 
-    private List<Event> DaysEvents;
+    private List<ScheduleEvent> daysScheduleEvents;
 
     Day(){
-        DaysEvents = new ArrayList<Event>();
+        daysScheduleEvents = new ArrayList<ScheduleEvent>();
     }
 
 }

@@ -14,7 +14,7 @@ public class User {
     private String lastname;
     // Password storage should be taken care of by firebase.
 
-    
+
     private double NumDaysToDisplay;
     private Color primaryColor;
     private Color secondaryColor;

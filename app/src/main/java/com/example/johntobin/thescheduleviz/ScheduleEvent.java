@@ -6,7 +6,7 @@ package com.example.johntobin.thescheduleviz;
 
 import java.sql.Time;
 
-public class Event {
+public class ScheduleEvent {
 
     private String EventName;
     private String Location;
@@ -18,11 +18,11 @@ public class Event {
 
 
     // Constructor with no arguments. Use when you want to initialize a blank event.
-    public Event(){
+    public ScheduleEvent(){
         this.reoccuringOn = new boolean[]{false, false, false, false, false, false, false};
     }
 
-    public Event(String EventNameIn, String LocationIn){
+    public ScheduleEvent(String EventNameIn, String LocationIn){
         this.reoccuringOn = new boolean[]{false, false, false, false, false, false, false};
 
         if(EventNameIn.length() <= 30){
@@ -44,7 +44,7 @@ public class Event {
 
     }
 
-    public Event(String EventNameIn, String LocationIn, Time StartTimeIn, Time EndTimeIn){
+    public ScheduleEvent(String EventNameIn, String LocationIn, Time StartTimeIn, Time EndTimeIn){
         this.reoccuringOn = new boolean[]{false, false, false, false, false, false, false};
 
         if(EventNameIn.length() <= 30){
