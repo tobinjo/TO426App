@@ -8,10 +8,19 @@
 
     <Button
         android:id="@+id/goToCalendarTest"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:text="Go to the calendar test." />
+        android:layout_height="wrap_content"
+        android:text="Go to the calendar test."
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="130dp" />
 
+    <Button
+        android:id="@+id/screenshotTest"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Take a screenshot."
+        tools:layout_editor_absoluteX="108dp"
+        tools:layout_editor_absoluteY="16dp" />
 
 
 </android.support.constraint.ConstraintLayout>
