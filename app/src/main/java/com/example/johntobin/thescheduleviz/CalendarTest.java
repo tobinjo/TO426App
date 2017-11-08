@@ -360,7 +360,7 @@ public class CalendarTest extends Activity
             DateTime now = new DateTime(System.currentTimeMillis());
             List<String> eventStrings = new ArrayList<String>();
             Events events = mService.events().list("primary")
-                    .setMaxResults(10)
+                    .setMaxResults(250)
                     .setTimeMin(now)
                     .setOrderBy("startTime")
                     .setSingleEvents(true)
