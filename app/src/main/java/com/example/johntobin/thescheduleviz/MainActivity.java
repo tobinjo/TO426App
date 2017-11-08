@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
                 Bitmap ss = getScreenShot(rootView);
-                store(ss, "Testfile");
+                store(ss, "Testfile.png");
             }
         });
 
@@ -56,10 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void store(Bitmap bm, String fileName){
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-            final String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Screenshots";
-            File dir = new File(dirPath);
-            if(!dir.exists())
-                dir.mkdirs();
+            final File dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
             File file = new File(dirPath, fileName);
             try {
                 FileOutputStream fOut = new FileOutputStream(file);
