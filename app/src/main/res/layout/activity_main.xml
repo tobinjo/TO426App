@@ -6,13 +6,21 @@
     android:layout_height="match_parent"
     tools:context="com.example.johntobin.thescheduleviz.MainActivity">
 
-    <TextView
+    <Button
+        android:id="@+id/goToCalendarTest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Go to the calendar test."
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="130dp" />
+
+    <Button
+        android:id="@+id/screenshotTest"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Take a screenshot."
+        tools:layout_editor_absoluteX="108dp"
+        tools:layout_editor_absoluteY="16dp" />
+
 
 </android.support.constraint.ConstraintLayout>
