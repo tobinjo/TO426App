@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -24,12 +26,25 @@
         </activity>
         <activity
             android:name=".CalendarTest"
-            android:label="Google Calendar API Android Quickstart" >
+            android:label="Google Calendar API Android Quickstart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".WelcomescreenactivityActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity android:name=".NewUserRegistration" />
+        <activity android:name=".ImportActivity" />
+        <activity android:name=".WeeklyRoundupActivity" />
+        <activity android:name=".DetailedDayActivity" />
+        <activity android:name=".EventAddActivity" />
+        <activity android:name=".CustomizeActivity" />
+        <activity android:name=".PreviewActivity" />
+        <activity android:name=".ConfirmationActivity"></activity>
     </application>
 
 </manifest>
