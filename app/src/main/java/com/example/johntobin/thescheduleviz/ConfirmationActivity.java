@@ -6,14 +6,14 @@ import android.widget.Button;
 
 public class ConfirmationActivity extends AppCompatActivity {
 
-    Button buttonConfirm;
+    Button buttonConfirmSchedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmation);
 
-        buttonConfirm = (Button) findViewById(R.id.buttonConfirm);
+        buttonConfirmSchedule = (Button) findViewById(R.id.buttonConfirmSchedule);
 
 
 

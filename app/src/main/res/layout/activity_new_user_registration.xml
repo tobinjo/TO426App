@@ -6,4 +6,19 @@
     android:layout_height="match_parent"
     tools:context="com.example.johntobin.thescheduleviz.NewUserRegistration">
 
+    <Button
+        android:id="@+id/buttonConfirmNewUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm"
+        tools:layout_editor_absoluteX="138dp"
+        tools:layout_editor_absoluteY="161dp" />
+
+    <Button
+        android:id="@+id/buttonGoBackToLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go Back"
+        tools:layout_editor_absoluteX="138dp"
+        tools:layout_editor_absoluteY="50dp" />
 </android.support.constraint.ConstraintLayout>
