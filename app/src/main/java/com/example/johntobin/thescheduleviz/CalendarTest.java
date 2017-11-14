@@ -358,10 +358,12 @@ public class CalendarTest extends Activity
         private List<String> getDataFromApi() throws IOException {
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
+            DateTime weeklater = new DateTime(System.currentTimeMillis()+(7*24*60*60*1000));
             List<String> eventStrings = new ArrayList<String>();
             Events events = mService.events().list("primary")
                     .setMaxResults(250)
                     .setTimeMin(now)
+                    .setTimeMax(weeklater)
                     .setOrderBy("startTime")
                     .setSingleEvents(true)
                     .execute();
