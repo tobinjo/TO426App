@@ -48,6 +48,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        //FirebaseUser currentUser = mAuth.getCurrentUser();
+        //updateUI(currentUser);
         mAuth.addAuthStateListener(mAuthListener);
     }
 
@@ -127,7 +130,8 @@ public class LoginActivity extends AppCompatActivity {
                     // User is logged out.
                 }
             }
-        };
+        };// Jasmine: assuming I don't want to change this part to include other authentication
+        // such as what the firebase example code shows
 
 
         // Set up the login form.
