@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import android.net.Uri;
 import android.widget.Toast;
 import android.content.ActivityNotFoundException;
+import android.app.WallpaperManager;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -51,7 +52,21 @@ public class MainActivity extends AppCompatActivity {
         screenView.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
         screenView.setDrawingCacheEnabled(false);
+
         return bitmap;
+
+    }
+
+    public void setBackground(Bitmap pictureIn) {
+        //this is our attempt to transform bitmap into imput stream, struggling with how to fix errors
+        int byteSize = bitmap.getAllocationByteCount() * bitmap.getHeight();
+        ByteBuffer byteBuffer = ByteBuffer.allocate(byteSize);
+        bitmap.copyPixelsToBuffer(byteBuffer);
+        byte[] byteArray = byteBuffer.array();
+        ByteArrayInputStream bs = new ByteArrayInputStream(byteArray);
+
+        WallpaperManager.getInstance(this).setStream(pictureIn, null, true, WallpaperManager.FLAG_LOCK);
+
     }
 
     public void store(Bitmap bm, String fileName){
