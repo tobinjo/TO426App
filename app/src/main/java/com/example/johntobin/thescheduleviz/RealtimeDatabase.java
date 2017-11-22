@@ -11,12 +11,16 @@ import static android.content.ContentValues.TAG;
  * Created by jasminepalakurthi
  */
 //write a message to database
+/*
 public class RealtimeDatabase {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("message");
 //  myRef.setValue("Hello, World!");
+
+
 // Read from the database
 }
+*/
 //
 /*myRef.addValueEventListener(new ValueEventListener() {
 

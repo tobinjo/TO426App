@@ -23,6 +23,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-messaging:10.0.1'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:design:26.1.0'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -44,25 +45,13 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:10.0.1'
     compile 'com.google.firebase:firebase-core:10.0.1'
     compile 'com.google.firebase:firebase-database:10.0.1'
-    compile 'com.google.firebase:firebase-auth:11.6.0'//jasmine added (after updating)
-    compile 'com.google.android.gms:play-services-auth:11.6.0'//jasmine added for auth
-    compile 'com.google.firebase:firebase-database:11.6.0'// jasmine added for database (updated)
+    compile 'com.google.firebase:firebase-auth:10.0.1'//jasmine added ()
+    compile 'com.google.android.gms:play-services-auth:10.0.1'//jasmine added for auth
+    compile 'com.google.firebase:firebase-database:10.0.1'// jasmine added for database ()
 }
-
-
-
+apply plugin: 'com.google.gms.google-services'// jasmine
 
 // Jasmine: John already authenticated Google Sign-in?
-
-
-
-
-
-
-
-
-
-
 
 
 apply plugin: 'com.google.gms.google-services'

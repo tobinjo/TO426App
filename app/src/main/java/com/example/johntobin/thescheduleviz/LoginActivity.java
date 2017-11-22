@@ -10,6 +10,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import android.util.Log;
 import android.support.annotation.NonNull;
@@ -45,7 +47,9 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
 
 
-    @Override
+
+
+        @Override
     public void onStart(){
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -212,5 +216,10 @@ public class LoginActivity extends AppCompatActivity {
         //TODO: Replace this with your own logic
         return password.length() >= 4;
     }
+   /* public class RealtimeDatabase {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(mEmailView.getText().toString());*/
+//  myRef.setValue("Hello, World!");
+    //}
 }
 

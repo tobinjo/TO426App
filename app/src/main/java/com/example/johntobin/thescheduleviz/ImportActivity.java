@@ -8,7 +8,7 @@ public class ImportActivity extends AppCompatActivity {
 
     Button buttonImportGoogleCalendar;
     Button buttonImportFromICal;
-    Button buttonManuallyImport
+    Button buttonManuallyImport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

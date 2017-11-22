@@ -13,7 +13,7 @@ public class User {
     private String firstname;
     private String lastname;
     // Password storage should be taken care of by firebase.
-
+// will do later
 
     private double NumDaysToDisplay;
     private Color primaryColor;

@@ -7,7 +7,7 @@ import android.widget.Button;
 public class NewUserRegistration extends AppCompatActivity {
 
     Button buttonConfirmNewUser;
-    Button buttonGoBackToLogin
+    Button buttonGoBackToLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
