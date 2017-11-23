@@ -41,6 +41,15 @@ protected void onCreate(Bundle savedInstanceState){
 
 
                         }
+        buttonUpdateEvent = (Button) findViewById(R.id.buttonUpdateEvent);
+        buttonUpdateEvent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                        if (!UpdateEvent.getText().toString().equalsIgnoreCase("")){
+                                database.child("Monday").child("EventContent").setValue(UpdateEvent.getText().toString());
+                        }
+                }
+        });
 
 
                 }
