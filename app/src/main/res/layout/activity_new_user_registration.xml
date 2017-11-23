@@ -7,7 +7,7 @@
     tools:context="com.example.johntobin.thescheduleviz.NewUserRegistration">
 
     <Button
-        android:id="@+id/buttonBack2"
+        android:id="@+id/buttonGoBackToLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.965" />
 
     <Button
-        android:id="@+id/buttonFinalize2"
+        android:id="@+id/buttonConfirmNewUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
