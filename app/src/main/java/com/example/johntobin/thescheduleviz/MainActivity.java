@@ -1,6 +1,5 @@
 package com.example.johntobin.thescheduleviz;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,23 +12,12 @@ import java.io.FileOutputStream;
 import android.net.Uri;
 import android.widget.Toast;
 import android.content.ActivityNotFoundException;
-import android.app.WallpaperManager;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-//NOTE TO SELF : YOU SHOULD INCLUDE THE BUTTONS THAT YOU JUST ADDED ON THE ACTIVITY EVENT
-//XML AND LOOK AT SANJEEV'S VID TO GUIDE - THEN LINK IT TO FIREBASE DATABASE
 
 
 public class MainActivity extends AppCompatActivity {
 
     Button goToCalendarTest;
     Button takeScreenshot;
-
-    // Firebase
-
-    //DatabaseReference = mRootRef = FirebaseDatabase.getInstance.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 store(ss, "Testfile.png");
             }
         });
-//-------------------------------------
-       /* @Override
-            protected void OnStart() {
-            super.onStart();
-            DatabaseReference conditionRef = mRootRef.child("condition");
-        }*/
-//------------------------------------
+
     }
 
     public static Bitmap getScreenShot(View view) {
@@ -69,22 +51,8 @@ public class MainActivity extends AppCompatActivity {
         screenView.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
         screenView.setDrawingCacheEnabled(false);
-
         return bitmap;
-
     }
-//comment back in for screenshot stuff? lauren + jillian (look up on google)
-   /* public void setBackground(Bitmap pictureIn) {
-        //this is our attempt to transform bitmap into imput stream, struggling with how to fix errors
-        int byteSize = bitmap.getAllocationByteCount() * bitmap.getHeight();
-        ByteBuffer byteBuffer = ByteBuffer.allocate(byteSize);
-        bitmap.copyPixelsToBuffer(byteBuffer);
-        byte[] byteArray = byteBuffer.array();
-        ByteArrayInputStream bs = new ByteArrayInputStream(byteArray);
-
-        WallpaperManager.getInstance(this).setStream(pictureIn, null, true, WallpaperManager.FLAG_LOCK);
-
-    }*/
 
     public void store(Bitmap bm, String fileName){
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){

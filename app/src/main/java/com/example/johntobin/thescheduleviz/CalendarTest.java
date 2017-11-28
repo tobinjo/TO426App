@@ -43,9 +43,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -66,6 +70,8 @@ public class CalendarTest extends Activity
     private static final String BUTTON_TEXT = "Call Google Calendar API";
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
+    private Calendar c = Calendar.getInstance();
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     /**
      * Create the main activity.
@@ -360,7 +366,11 @@ public class CalendarTest extends Activity
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
             DateTime weeklater = new DateTime(System.currentTimeMillis()+(7*24*60*60*1000));
-            List<String> eventStrings = new ArrayList<String>();
+            ArrayList<String> eventStrings = new ArrayList<String>();
+            ArrayList<String> mondayEventStrings = new ArrayList<String>();
+            ArrayList<String> tuesdayEventStrings = new ArrayList<String>();
+            ArrayList<String> mondayEventTimes = new ArrayList<String>();
+            ArrayList<String> tuesdayEventTimes = new ArrayList<String>();
             Events events = mService.events().list("primary")
                     .setMaxResults(250)
                     .setTimeMin(now)
@@ -372,14 +382,38 @@ public class CalendarTest extends Activity
 
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
-                if (start == null) {
+                if (start != null) {
                     // All-day events don't have start times, so just use
                     // the start date.
-                    start = event.getStart().getDate();
+                    try {
+                        Date thing = sdf.parse(start.toString());
+                        c.setTime(thing);
+                        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+                        if(dayOfWeek == 3){
+                            mondayEventStrings.add(event.getSummary());
+                            mondayEventTimes.add(start.toString());
+                        }
+                        if(dayOfWeek == 4){
+                            tuesdayEventStrings.add(event.getSummary());
+                            tuesdayEventTimes.add(start.toString());
+                        }
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
                 eventStrings.add(
                         String.format("%s (%s)", event.getSummary(), start));
             }
+            Intent i = new Intent(getApplicationContext(), EventVizTest.class);
+            Bundle extras = new Bundle();
+            extras.putStringArrayList("tuesdayEventSummaries", tuesdayEventStrings);
+            extras.putStringArrayList("mondayEventSummaries", mondayEventStrings);
+            extras.putStringArrayList("mondayEventTimes", mondayEventTimes);
+            extras.putStringArrayList("tuesdayEventTimes", tuesdayEventTimes);
+            i.putExtras(extras);
+            startActivity(i);
+
             return eventStrings;
         }
 
