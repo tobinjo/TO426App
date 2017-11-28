@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 //XML AND LOOK AT SANJEEV'S VID TO GUIDE - THEN LINK IT TO FIREBASE DATABASE
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Button.OnClickListener {
 
     Button goToCalendarTest;
     Button takeScreenshot;
@@ -30,21 +30,25 @@ public class MainActivity extends AppCompatActivity {
     // Firebase
 
     //DatabaseReference = mRootRef = FirebaseDatabase.getInstance.getReference();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         goToCalendarTest = (Button) findViewById(R.id.goToCalendarTest);
-        goToCalendarTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), CalendarTest.class);
-                startActivity(i);
-                finish();
-            }
-        });
+        goToCalendarTest.setOnClickListener(this);
+    }
+
+    public void onClick(View view) {
+        if (view.getId() == R.id.goToCalendarTest) {
+            Intent intentGoToCalendarPage = new Intent(this, CalendarTest.class);
+            this.startActivity(intentGoToCalendarPage);
+
+
+            //put an else if statement?
+        }
+       // --------------------
+
 
         takeScreenshot = (Button) findViewById(R.id.screenshotTest);
         takeScreenshot.setOnClickListener(new View.OnClickListener() {

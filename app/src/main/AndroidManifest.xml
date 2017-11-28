@@ -18,8 +18,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
+
         <activity
             android:name=".CalendarTest"
             android:label="Google Calendar API Android Quickstart">
@@ -32,13 +38,13 @@
         <activity android:name=".ImportActivity" />
         <activity android:name=".WeeklyRoundupActivity" />
         <activity android:name=".DetailedDayActivity" />
-        <activity android:name=".EventAddActivity" >
-            <intent-filter>
+        <activity android:name=".EventAddActivity" />
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity>-->
 
         <activity android:name=".CustomizeActivity" />
         <activity android:name=".PreviewActivity" />
