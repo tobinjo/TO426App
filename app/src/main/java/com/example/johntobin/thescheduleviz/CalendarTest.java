@@ -73,6 +73,8 @@ public class CalendarTest extends Activity
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
+
+
     /**
      * Create the main activity.
      * @param savedInstanceState previously saved instance data.
@@ -80,6 +82,9 @@ public class CalendarTest extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_import); // jasmine: should allow you to see calendar_test xml?
+
         LinearLayout activityLayout = new LinearLayout(this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -87,6 +92,7 @@ public class CalendarTest extends Activity
         activityLayout.setLayoutParams(lp);
         activityLayout.setOrientation(LinearLayout.VERTICAL);
         activityLayout.setPadding(16, 16, 16, 16);
+
 
         ViewGroup.LayoutParams tlp = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -118,11 +124,12 @@ public class CalendarTest extends Activity
         mProgress.setMessage("Calling Google Calendar API ...");
 
         setContentView(activityLayout);
-
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
+
+
     }
 
 
