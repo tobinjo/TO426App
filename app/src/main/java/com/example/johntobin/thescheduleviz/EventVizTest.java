@@ -3,10 +3,15 @@ package com.example.johntobin.thescheduleviz;
 import android.app.Activity;
 import android.os.Bundle;
 
+import android.support.constraint.Guideline;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.support.constraint.ConstraintLayout;
+import android.view.View;
+import android.annotation.TargetApi;
 
 import org.w3c.dom.Text;
 
@@ -15,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
 
+@TargetApi(20)
 public class EventVizTest extends Activity {
 
     private String[] day1summaries;
@@ -35,10 +41,6 @@ public class EventVizTest extends Activity {
         ll.setOrientation(LinearLayout.HORIZONTAL);//with horizontal orientation
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
 
-        LinearLayout l3 = new LinearLayout(this); //sub linearlayout
-        l3.setWeightSum(100f);
-        l3.setOrientation(LinearLayout.VERTICAL); //with vertical orientation
-        l3.setLayoutParams(layoutParams);
 
 
         // Get variables passed in through intent.
@@ -75,8 +77,8 @@ public class EventVizTest extends Activity {
             e.printStackTrace();
         }
 
-        int[][] allWeights = {new int[(day1summaries != null) ? day1summaries.length+1 : 0], new int[(day2summaries != null) ? day2summaries.length+1 : 0], new int[(day3summaries != null) ? day3summaries.length+1 : 0]};
-        long daysminutes = 24*60;
+        float[][] allWeights = {new float[(day1summaries != null) ? day1summaries.length : 0], new float[(day2summaries != null) ? day2summaries.length : 0], new float[(day3summaries != null) ? day3summaries.length : 0]};
+        float daysminutes = 24*60;
 
         for(int k = 0; k < allSummaries.length; ++k){
             int remaining = 100;
@@ -87,37 +89,38 @@ public class EventVizTest extends Activity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                long diff = (datetosubtract.getHours() - midnight.getHours())*60 + (datetosubtract.getMinutes() - midnight.getMinutes());
-                if(i == 0){
-                    int pct = (int) (diff/daysminutes)*100;
-                    allWeights[k][0] = pct;
-                    remaining -= allWeights[k][0];
-                }
-                else{
-                    int pct = (int) (diff/daysminutes)*100;
-                    allWeights[k][i] = (int) pct - allWeights[k][i-1];
-                    remaining -=  allWeights[k][i];
-                    if(i == allSummaries[k].length){
-                        allWeights[k][i+1] = remaining;
-                    }
-                }
+                float diff = (datetosubtract.getHours() - midnight.getHours())*60 + (datetosubtract.getMinutes() - midnight.getMinutes());
+                float pct = (diff/daysminutes);
+                allWeights[k][i] = pct;
             }
             if(allSummaries[k] != null){
-                LinearLayout l2 = new LinearLayout(this); //sub linearlayout
-                l2.setWeightSum(100f);
-                l2.setOrientation(LinearLayout.VERTICAL); //with vertical orientation
-                l2.setLayoutParams(layoutParams);
+                LinearLayout l1 = new LinearLayout(this);
+                LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+                l1.setLayoutParams(lparams);
 
-                TextView blankEvent = new TextView(this);
-                blankEvent.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT, allWeights[k][0]));
-                l2.addView(blankEvent);
-                for(int i = 1; i < allSummaries[k].length+1; ++i){
+                // Make constraint layout.
+                ConstraintLayout c1 = new ConstraintLayout(this);
+                ConstraintLayout.LayoutParams cparams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+                c1.setLayoutParams(cparams);
+
+                for(int i = 0; i < allSummaries[k].length; ++i){
+                    Guideline guide = new Guideline(this);
+                    ConstraintLayout.LayoutParams gllp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+                    gllp.guidePercent = allWeights[k][i];
+                    gllp.orientation = LinearLayout.VERTICAL;
+                    guide.setLayoutParams(gllp);
+                    guide.setId(View.generateViewId());
+                    c1.addView(guide);
+
                     TextView newEvent = new TextView(this);
-                    newEvent.setText(allSummaries[k][i-1]);
-                    newEvent.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT, allWeights[k][i]));
-                    l2.addView(newEvent);
+                    newEvent.setText(allSummaries[k][i]);
+                    ConstraintLayout.LayoutParams tparams = new ConstraintLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+                    tparams.topToTop = guide.getId();
+                    newEvent.setLayoutParams(tparams);
+                    c1.addView(newEvent);
                 }
-                ll.addView(l2);
+                l1.addView(c1);
+                ll.addView(l1);
             }
         }
 

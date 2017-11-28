@@ -39,6 +39,7 @@
         <activity android:name=".WeeklyRoundupActivity" />
         <activity android:name=".DetailedDayActivity" />
         <activity android:name=".EventAddActivity" />
+        <activity android:name=".EventVizTest" />
            <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
