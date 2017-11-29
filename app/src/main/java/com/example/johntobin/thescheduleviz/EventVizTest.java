@@ -40,7 +40,7 @@ public class EventVizTest extends Activity {
         LinearLayout ll = new LinearLayout(this); //root LinearLayout
         ll.setOrientation(LinearLayout.HORIZONTAL);//with horizontal orientation
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
-
+        //ll.setLayoutParams(layoutParams);
 
 
         // Get variables passed in through intent.
@@ -95,32 +95,42 @@ public class EventVizTest extends Activity {
             }
             if(allSummaries[k] != null){
                 LinearLayout l1 = new LinearLayout(this);
-                LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+                l1.setOrientation(LinearLayout.VERTICAL);
+                LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+                lparams.weight = 50;
                 l1.setLayoutParams(lparams);
 
                 // Make constraint layout.
                 ConstraintLayout c1 = new ConstraintLayout(this);
                 ConstraintLayout.LayoutParams cparams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+                cparams.orientation = ConstraintLayout.LayoutParams.VERTICAL;
                 c1.setLayoutParams(cparams);
+
 
                 for(int i = 0; i < allSummaries[k].length; ++i){
                     Guideline guide = new Guideline(this);
-                    ConstraintLayout.LayoutParams gllp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+                    ConstraintLayout.LayoutParams gllp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
                     gllp.guidePercent = allWeights[k][i];
-                    gllp.orientation = LinearLayout.VERTICAL;
+                    gllp.orientation = ConstraintLayout.LayoutParams.HORIZONTAL;
                     guide.setLayoutParams(gllp);
                     guide.setId(View.generateViewId());
                     c1.addView(guide);
 
+
                     TextView newEvent = new TextView(this);
                     newEvent.setText(allSummaries[k][i]);
-                    ConstraintLayout.LayoutParams tparams = new ConstraintLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-                    tparams.topToTop = guide.getId();
+                    ConstraintLayout.LayoutParams tparams = new ConstraintLayout.LayoutParams(300, 300);
+                    tparams.topToBottom = guide.getId();
                     newEvent.setLayoutParams(tparams);
                     c1.addView(newEvent);
                 }
                 l1.addView(c1);
+
+                //TextView tevent = new TextView(this);
+                //tevent.setText("This is test text.");
+                //l1.addView(tevent);
                 ll.addView(l1);
+
             }
         }
 

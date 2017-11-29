@@ -396,11 +396,11 @@ public class CalendarTest extends Activity
                         Date thing = sdf.parse(start.toString());
                         c.setTime(thing);
                         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-                        if(dayOfWeek == 3){
+                        if(dayOfWeek == 4){
                             mondayEventStrings.add(event.getSummary());
                             mondayEventTimes.add(start.toString());
                         }
-                        if(dayOfWeek == 4){
+                        if(dayOfWeek == 5){
                             tuesdayEventStrings.add(event.getSummary());
                             tuesdayEventTimes.add(start.toString());
                         }
