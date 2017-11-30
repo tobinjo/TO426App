@@ -1,6 +1,7 @@
 package com.example.johntobin.thescheduleviz;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import android.support.constraint.Guideline;
@@ -9,18 +10,25 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Button;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.annotation.TargetApi;
+import android.app.WallpaperManager;
+import android.graphics.Bitmap.CompressFormat;
+import android.content.Context;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
+import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
 
-@TargetApi(20)
+@TargetApi(24)
 public class EventVizTest extends Activity {
 
     private String[] day1summaries;
@@ -37,7 +45,10 @@ public class EventVizTest extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LinearLayout ll = new LinearLayout(this); //root LinearLayout
+        LinearLayout ml = new LinearLayout(this); //master LinearLayout
+        ml.setOrientation(LinearLayout.VERTICAL);
+
+        LinearLayout ll = new LinearLayout(this); //subroot LinearLayout
         ll.setOrientation(LinearLayout.HORIZONTAL);//with horizontal orientation
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
         //ll.setLayoutParams(layoutParams);
@@ -126,6 +137,8 @@ public class EventVizTest extends Activity {
                 }
                 l1.addView(c1);
 
+
+
                 //TextView tevent = new TextView(this);
                 //tevent.setText("This is test text.");
                 //l1.addView(tevent);
@@ -134,7 +147,34 @@ public class EventVizTest extends Activity {
             }
         }
 
-        setContentView(ll);
+        final Context whatever = this;
+
+
+        Button ssButton=new Button(this);
+        ssButton.setText("Take a screenshot.");
+        ssButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+                Bitmap ss = MainActivity.getScreenShot(rootView);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ss.compress(CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+                byte[] bitmapdata = bos.toByteArray();
+                ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
+
+
+                try {
+                    WallpaperManager.getInstance(whatever).setStream(bs, null, true, WallpaperManager.FLAG_LOCK);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        ml.addView(ll);
+        ml.addView(ssButton);
+        setContentView(ml);
 
     }
 }
