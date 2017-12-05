@@ -17,6 +17,7 @@ import android.annotation.TargetApi;
 import android.app.WallpaperManager;
 import android.graphics.Bitmap.CompressFormat;
 import android.content.Context;
+import android.graphics.Color;
 
 import org.w3c.dom.Text;
 
@@ -33,10 +34,13 @@ public class EventVizTest extends Activity {
 
     private String[] day1summaries;
     private String[] day1times;
+    private Integer[] day1durations;
     private String[] day2summaries;
     private String[] day2times;
+    private Integer[] day2durations;
     private String[] day3summaries;
     private String[] day3times;
+    private Integer[] day3durations;
 
     private SimpleDateFormat sdfone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     private SimpleDateFormat sdftwo = new SimpleDateFormat("HH:mm:ss");
@@ -44,14 +48,12 @@ public class EventVizTest extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_base_display);
+        //LinearLayout ml = new LinearLayout(this); //master LinearLayout
+        //ml.setOrientation(LinearLayout.VERTICAL);
 
-        LinearLayout ml = new LinearLayout(this); //master LinearLayout
-        ml.setOrientation(LinearLayout.VERTICAL);
-
-        LinearLayout ll = new LinearLayout(this); //subroot LinearLayout
-        ll.setOrientation(LinearLayout.HORIZONTAL);//with horizontal orientation
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
-        //ll.setLayoutParams(layoutParams);
+        LinearLayout ll = (LinearLayout) findViewById(R.id.subLL);
+        int llheight = ll.getMeasuredHeight();
 
 
         // Get variables passed in through intent.
@@ -63,23 +65,31 @@ public class EventVizTest extends Activity {
             tl = extras.getStringArrayList("mondayEventTimes");
             day1times = (tl != null) ? tl.toArray(new String[tl.size()]) : null;
             daycount += (day1times != null) ? 1 : 0;
+            ArrayList<Integer> durations = extras.getIntegerArrayList("mondayEventDurations");
+            day1durations = (durations != null) ? durations.toArray(new Integer[durations.size()]) : null;
+
 
             tl = extras.getStringArrayList("tuesdayEventSummaries");
             day2summaries = (tl != null) ? tl.toArray(new String[tl.size()]): null;
             tl = extras.getStringArrayList("tuesdayEventTimes");
             day2times = (tl != null) ? tl.toArray(new String[tl.size()]) : null;
             daycount += (day2times != null) ? 1 : 0;
+            durations = extras.getIntegerArrayList("tuesdayEventDurations");
+            day2durations = (durations != null) ? durations.toArray(new Integer[durations.size()]) : null;
 
             tl = extras.getStringArrayList("day3times");
             day3summaries = (tl != null) ? tl.toArray(new String[tl.size()]): null;
             tl = extras.getStringArrayList("day3summaries");
             day3times = (tl != null) ? tl.toArray(new String[tl.size()]) : null;
             daycount += (day3times != null) ? 1 : 0;
+            durations = extras.getIntegerArrayList("wednesdayEventDurations");
+            day3durations = (durations != null) ? durations.toArray(new Integer[durations.size()]) : null;
             //The key argument here must match that used in the other activity
         }
 
         String[][] allSummaries = {day1summaries, day2summaries, day3summaries};
         String[][] allTimes = {day1times, day2times, day3times};
+        Integer[][] allDurations = {day1durations, day2durations, day3durations};
 
         Date midnight = new Date();
         try {
@@ -89,7 +99,8 @@ public class EventVizTest extends Activity {
         }
 
         float[][] allWeights = {new float[(day1summaries != null) ? day1summaries.length : 0], new float[(day2summaries != null) ? day2summaries.length : 0], new float[(day3summaries != null) ? day3summaries.length : 0]};
-        float daysminutes = 24*60;
+
+        int daysminutes = 24*60;
 
         for(int k = 0; k < allSummaries.length; ++k){
             int remaining = 100;
@@ -119,19 +130,38 @@ public class EventVizTest extends Activity {
 
 
                 for(int i = 0; i < allSummaries[k].length; ++i){
-                    Guideline guide = new Guideline(this);
-                    ConstraintLayout.LayoutParams gllp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
-                    gllp.guidePercent = allWeights[k][i];
-                    gllp.orientation = ConstraintLayout.LayoutParams.HORIZONTAL;
-                    guide.setLayoutParams(gllp);
-                    guide.setId(View.generateViewId());
-                    c1.addView(guide);
+                    Guideline topguide = new Guideline(this);
+                    ConstraintLayout.LayoutParams gllptop = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+                    gllptop.guidePercent = allWeights[k][i];
+                    gllptop.orientation = ConstraintLayout.LayoutParams.HORIZONTAL;
+                    topguide.setLayoutParams(gllptop);
+                    topguide.setId(View.generateViewId());
+                    c1.addView(topguide);
 
+                    float textheightpct = ((float) allDurations[k][i]) / daysminutes;
+                    Guideline bottomguide = new Guideline(this);
+                    ConstraintLayout.LayoutParams gllpbot = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+                    gllpbot.guidePercent = allWeights[k][i] + textheightpct;
+                    gllpbot.orientation = ConstraintLayout.LayoutParams.HORIZONTAL;
+                    bottomguide.setLayoutParams(gllpbot);
+                    bottomguide.setId(View.generateViewId());
+                    c1.addView(bottomguide);
 
                     TextView newEvent = new TextView(this);
                     newEvent.setText(allSummaries[k][i]);
-                    ConstraintLayout.LayoutParams tparams = new ConstraintLayout.LayoutParams(300, 300);
-                    tparams.topToBottom = guide.getId();
+                    if(i % 2 == 0){
+                        newEvent.setBackgroundColor(Color.parseColor("#424bf4"));
+                    }
+                    else{
+                        newEvent.setBackgroundColor(Color.parseColor("#f44141"));
+                    }
+
+                    ConstraintLayout.LayoutParams tparams = new ConstraintLayout.LayoutParams(600, 0);
+                    tparams.topToBottom = topguide.getId();
+                    //tparams.endToEnd = bottomguide.getId();
+                    tparams.bottomMargin = (int) textheightpct;
+                    //tparams.endToEnd = bottomguide.getId();
+                    tparams.verticalWeight = 1;
                     newEvent.setLayoutParams(tparams);
                     c1.addView(newEvent);
                 }
@@ -150,11 +180,11 @@ public class EventVizTest extends Activity {
         final Context whatever = this;
 
 
-        Button ssButton=new Button(this);
-        ssButton.setText("Take a screenshot.");
+        final Button ssButton= findViewById(R.id.screenshotAndSet);
         ssButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                ssButton.setVisibility(View.GONE);
                 View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
                 Bitmap ss = MainActivity.getScreenShot(rootView);
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -162,19 +192,18 @@ public class EventVizTest extends Activity {
                 byte[] bitmapdata = bos.toByteArray();
                 ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
 
-
                 try {
                     WallpaperManager.getInstance(whatever).setStream(bs, null, true, WallpaperManager.FLAG_LOCK);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
+                ssButton.setVisibility(View.VISIBLE);
             }
         });
 
-        ml.addView(ll);
-        ml.addView(ssButton);
-        setContentView(ml);
+        //ml.addView(ll);
+        //ml.addView(ssButton);
+        //setContentView(ll);
 
     }
 }

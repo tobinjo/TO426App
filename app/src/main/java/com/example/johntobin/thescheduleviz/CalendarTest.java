@@ -378,6 +378,9 @@ public class CalendarTest extends Activity
             ArrayList<String> tuesdayEventStrings = new ArrayList<String>();
             ArrayList<String> mondayEventTimes = new ArrayList<String>();
             ArrayList<String> tuesdayEventTimes = new ArrayList<String>();
+            ArrayList<Integer> mondayEventDurations = new ArrayList<Integer>();
+            ArrayList<Integer> tuesdayEventDurations = new ArrayList<Integer>();
+
             Events events = mService.events().list("primary")
                     .setMaxResults(250)
                     .setTimeMin(now)
@@ -394,15 +397,20 @@ public class CalendarTest extends Activity
                     // the start date.
                     try {
                         Date thing = sdf.parse(start.toString());
+                        Date thing2 = sdf.parse(event.getEnd().getDateTime().toString());
+                        Integer duration = (int) (thing2.getTime()-thing.getTime());
+                        duration = duration / 1000 / 60;
                         c.setTime(thing);
                         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-                        if(dayOfWeek == 4){
+                        if(dayOfWeek == 3){
                             mondayEventStrings.add(event.getSummary());
                             mondayEventTimes.add(start.toString());
+                            mondayEventDurations.add(duration);
                         }
-                        if(dayOfWeek == 5){
+                        if(dayOfWeek == 4){
                             tuesdayEventStrings.add(event.getSummary());
                             tuesdayEventTimes.add(start.toString());
+                            tuesdayEventDurations.add(duration);
                         }
 
                     } catch (ParseException e) {
@@ -418,6 +426,8 @@ public class CalendarTest extends Activity
             extras.putStringArrayList("mondayEventSummaries", mondayEventStrings);
             extras.putStringArrayList("mondayEventTimes", mondayEventTimes);
             extras.putStringArrayList("tuesdayEventTimes", tuesdayEventTimes);
+            extras.putIntegerArrayList("mondayEventDurations", mondayEventDurations);
+            extras.putIntegerArrayList("tuesdayEventDurations", tuesdayEventDurations);
             i.putExtras(extras);
             startActivity(i);
 
