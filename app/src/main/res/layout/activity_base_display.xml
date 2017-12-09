@@ -4,22 +4,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    android:weightSum="100">
+    android:weightSum="100"
+    android:background="@color/colorToucanOrange"
+    >
 
     <LinearLayout
         android:id="@+id/subLL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_weight="90"></LinearLayout>
+        android:layout_weight="80">
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/screenshotAndSet"
         android:layout_width="match_parent"
         android:layout_height="61dp"
         android:layout_gravity="bottom"
-        android:text="Set as background."
         android:layout_weight="10"
-        />
+        android:background="@drawable/button_selector"
+        android:text="Set as background." />
+
 
 </LinearLayout>
+
