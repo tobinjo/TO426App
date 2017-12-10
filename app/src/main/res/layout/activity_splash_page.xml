@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.johntobin.thescheduleviz.SplashPage"
-    android:background="@color/colorToucanOrange">
+    android:background="@color/colorCustomBlueLighter">
 
     <Button
         android:id="@+id/buttonbegin"
@@ -22,9 +22,9 @@
     <ImageView
         android:id="@+id/imageViewlogo"
         android:layout_width="wrap_content"
-        android:layout_height="52dp"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/toucanlogo"
+        android:layout_height="95dp"
+        android:layout_marginTop="89dp"
+        android:src="@drawable/logoimage"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -34,7 +34,6 @@
         android:id="@+id/textViewWelcome"
         android:layout_width="wrap_content"
         android:layout_height="38dp"
-        android:layout_marginTop="8dp"
         android:text="Welcome to Tobin"
         android:textColor="@android:color/white"
         android:textSize="32sp"
