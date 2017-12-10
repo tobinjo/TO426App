@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.johntobin.thescheduleviz.PreviewActivity"
     tools:layout_editor_absoluteY="81dp"
-    android:background="@color/colorToucanOrange"
+    android:background="@color/colorCustomBlueLighter"
     >
 
     <Button
