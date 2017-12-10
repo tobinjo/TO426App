@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
 
     Button goToCalendarTest;
     Button takeScreenshot;
+    Button buttonBackToSplash;
 
     // Firebase
 
@@ -37,7 +38,10 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
 
         goToCalendarTest = (Button) findViewById(R.id.goToCalendarTest);
         goToCalendarTest.setOnClickListener(this);
-    }
+
+}
+
+
 
     public void onClick(View view) {
         if (view.getId() == R.id.goToCalendarTest) {
