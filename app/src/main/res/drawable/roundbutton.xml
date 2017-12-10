@@ -11,7 +11,7 @@ android:shape="rectangle" >
 
 
     <stroke android:width="2dp" android:color="#FFFFFF" />
-    <item android:drawable="@android:color/transparent"/>
+    <solid android:color="#FFFFFF" />
 
     <padding
     android:bottom="0dp"
