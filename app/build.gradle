@@ -50,7 +50,8 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:10.0.1'//jasmine added ()
     compile 'com.google.android.gms:play-services-auth:10.0.1'//jasmine added for auth
     compile 'com.google.firebase:firebase-database:10.0.1'// jasmine added for database ()
-    compile 'com.github.alamkanak:android-week-view:1.2.6' //irene added this for calendar weekly view
+    compile 'com.github.alamkanak:android-week-view:1.2.6'
+    //irene added this for calendar weekly view
 
 
 }

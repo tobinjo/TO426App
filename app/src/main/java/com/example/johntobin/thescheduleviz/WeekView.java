@@ -1,3 +1,4 @@
+/*
 package com.example.johntobin.thescheduleviz;
 
 import android.app.Activity;
@@ -79,3 +80,4 @@ public class WeekView extends Activity implements View.OnClickListener{
 
 
 }
+*/
