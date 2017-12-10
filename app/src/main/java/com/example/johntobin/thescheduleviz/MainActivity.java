@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity implements Button.OnClickListener {
 
     Button goToCalendarTest;
+    Button goToCalendarTestv2;
     Button takeScreenshot;
     Button buttonBackToSplash;
 
@@ -37,20 +38,28 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
         setContentView(R.layout.activity_main);
 
         goToCalendarTest = (Button) findViewById(R.id.goToCalendarTest);
+        goToCalendarTestv2 = (Button) findViewById(R.id.goToCalendarTest2);
+
         goToCalendarTest.setOnClickListener(this);
+        goToCalendarTestv2.setOnClickListener(this);
 
-}
 
-
+    }
 
     public void onClick(View view) {
         if (view.getId() == R.id.goToCalendarTest) {
             Intent intentGoToCalendarPage = new Intent(this, CalendarTest.class);
             this.startActivity(intentGoToCalendarPage);
-
+            finish();
 
             //put an else if statement?
         }
+        if (view.getId() == R.id.goToCalendarTest2){
+            Intent intentGoToCalendarPage = new Intent(this, WeekViewActivity.class);
+            this.startActivity(intentGoToCalendarPage);
+            finish();
+        }
+
        // --------------------
 
 

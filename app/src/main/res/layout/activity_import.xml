@@ -15,7 +15,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:background="@drawable/roundbutton"
         android:elevation="30dp"
         android:text="Import Google Calendar"
@@ -27,34 +27,53 @@
         app:layout_constraintVertical_bias="0.176" />
 
     <Button
-        android:id="@+id/buttonImportFromICal"
+        android:id="@+id/setEventColorButton"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/roundbutton"
         android:elevation="30dp"
-        android:text="Import iCalendar"
+        android:text="Set Event Color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonImportGoogleCalendar" />
 
     <Button
-        android:id="@+id/buttonManuallyImport"
+        android:id="@+id/setTextColorButton"
         android:layout_width="273dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/roundbutton"
         android:elevation="30dp"
-        android:text="Manually Import"
+        android:text="Set Text Color"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonImportFromICal"
+        app:layout_constraintTop_toBottomOf="@+id/setEventColorButton"
+        app:layout_constraintVertical_bias="0.0"
+
+        />
+
+    <Button
+        android:id="@+id/setBackgroundColorButton"
+        android:layout_width="273dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/roundbutton"
+        android:elevation="30dp"
+        android:text="Set Background Color"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setTextColorButton"
         app:layout_constraintVertical_bias="0.0"
 
         />
@@ -70,6 +89,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonManuallyImport" />
+        app:layout_constraintTop_toBottomOf="@+id/setBackgroundColorButton" />
 
 </android.support.constraint.ConstraintLayout>

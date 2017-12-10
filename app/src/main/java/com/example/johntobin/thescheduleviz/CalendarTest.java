@@ -29,13 +29,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,6 +46,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,6 +57,9 @@ import java.util.Date;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
+
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
+import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 
 
 public class CalendarTest extends Activity
@@ -73,7 +80,13 @@ public class CalendarTest extends Activity
     private Calendar c = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
+    private Button backgroundColorButton;
+    private Button textColorButton;
+    private Button eventColorButton;
 
+    private int backgroundColor;
+    private int textColor;
+    private int eventColor;
 
     /**
      * Create the main activity.
@@ -82,8 +95,86 @@ public class CalendarTest extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_import); // jasmine: should allow you to see calendar_test xml?
+
+        backgroundColorButton = (Button) findViewById(R.id.setBackgroundColorButton);
+        textColorButton = (Button) findViewById(R.id.setTextColorButton);
+        eventColorButton = (Button) findViewById(R.id.setEventColorButton);
+
+        final ColorPicker cp = new ColorPicker(CalendarTest.this, 100, 100, 100, 100);
+
+        backgroundColorButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                cp.show();
+                cp.setCallback(new ColorPickerCallback() {
+                    @Override
+                    public void onColorChosen(@ColorInt int color) {
+                        // Do whatever you want
+                        // Examples
+                        Log.d("Alpha", Integer.toString(Color.alpha(color)));
+                        Log.d("Red", Integer.toString(Color.red(color)));
+                        Log.d("Green", Integer.toString(Color.green(color)));
+                        Log.d("Blue", Integer.toString(Color.blue(color)));
+
+                        Log.d("Pure Hex", Integer.toHexString(color));
+                        Log.d("#Hex no alpha", String.format("#%06X", (0xFFFFFF & color)));
+                        Log.d("#Hex with alpha", String.format("#%08X", (0xFFFFFFFF & color)));
+
+                        backgroundColor = color;
+                        closeOptionsMenu();
+                    }
+                });
+            }
+        });
+
+        textColorButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                cp.show();
+                cp.setCallback(new ColorPickerCallback() {
+                    @Override
+                    public void onColorChosen(@ColorInt int color) {
+                        // Do whatever you want
+                        // Examples
+                        Log.d("Alpha", Integer.toString(Color.alpha(color)));
+                        Log.d("Red", Integer.toString(Color.red(color)));
+                        Log.d("Green", Integer.toString(Color.green(color)));
+                        Log.d("Blue", Integer.toString(Color.blue(color)));
+
+                        Log.d("Pure Hex", Integer.toHexString(color));
+                        Log.d("#Hex no alpha", String.format("#%06X", (0xFFFFFF & color)));
+                        Log.d("#Hex with alpha", String.format("#%08X", (0xFFFFFFFF & color)));
+
+                        textColor = color;
+                    }
+                });
+            }
+        });
+
+        eventColorButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                cp.show();
+                cp.setCallback(new ColorPickerCallback() {
+                    @Override
+                    public void onColorChosen(@ColorInt int color) {
+                        // Do whatever you want
+                        // Examples
+                        Log.d("Alpha", Integer.toString(Color.alpha(color)));
+                        Log.d("Red", Integer.toString(Color.red(color)));
+                        Log.d("Green", Integer.toString(Color.green(color)));
+                        Log.d("Blue", Integer.toString(Color.blue(color)));
+
+                        Log.d("Pure Hex", Integer.toHexString(color));
+                        Log.d("#Hex no alpha", String.format("#%06X", (0xFFFFFF & color)));
+                        Log.d("#Hex with alpha", String.format("#%08X", (0xFFFFFFFF & color)));
+
+                        eventColor = color;
+                    }
+                });
+            }
+        });
 
         LinearLayout activityLayout = new LinearLayout(this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -98,8 +189,7 @@ public class CalendarTest extends Activity
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        mCallApiButton = new Button(this);
-        mCallApiButton.setText(BUTTON_TEXT);
+        mCallApiButton = (Button) findViewById(R.id.buttonImportGoogleCalendar);
         mCallApiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +199,7 @@ public class CalendarTest extends Activity
                 mCallApiButton.setEnabled(true);
             }
         });
-        activityLayout.addView(mCallApiButton);
+        //activityLayout.addView(mCallApiButton);
 
         mOutputText = new TextView(this);
         mOutputText.setLayoutParams(tlp);
@@ -118,12 +208,12 @@ public class CalendarTest extends Activity
         mOutputText.setMovementMethod(new ScrollingMovementMethod());
         mOutputText.setText(
                 "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
-        activityLayout.addView(mOutputText);
+        //activityLayout.addView(mOutputText);
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Calendar API ...");
 
-        setContentView(activityLayout);
+        //setContentView(activityLayout);
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
@@ -372,19 +462,17 @@ public class CalendarTest extends Activity
         private List<String> getDataFromApi() throws IOException {
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
-            DateTime weeklater = new DateTime(System.currentTimeMillis()+(7*24*60*60*1000));
-            ArrayList<String> eventStrings = new ArrayList<String>();
-            ArrayList<String> mondayEventStrings = new ArrayList<String>();
-            ArrayList<String> tuesdayEventStrings = new ArrayList<String>();
-            ArrayList<String> mondayEventTimes = new ArrayList<String>();
-            ArrayList<String> tuesdayEventTimes = new ArrayList<String>();
-            ArrayList<Integer> mondayEventDurations = new ArrayList<Integer>();
-            ArrayList<Integer> tuesdayEventDurations = new ArrayList<Integer>();
+            ArrayList<String> eventNames = new ArrayList<String>();
+            ArrayList<Integer> eventStartTimesMth = new ArrayList<Integer>();
+            ArrayList<Integer> eventStartTimesD = new ArrayList<Integer>();
+            ArrayList<Integer> eventStartTimesH = new ArrayList<Integer>();
+            ArrayList<Integer> eventStartTimesM = new ArrayList<Integer>();
+            ArrayList<Integer> eventEndTimesH = new ArrayList<Integer>();
+            ArrayList<Integer> eventEndTimesM = new ArrayList<Integer>();
 
             Events events = mService.events().list("primary")
-                    .setMaxResults(250)
+                    .setMaxResults(100)
                     .setTimeMin(now)
-                    .setTimeMax(weeklater)
                     .setOrderBy("startTime")
                     .setSingleEvents(true)
                     .execute();
@@ -392,46 +480,43 @@ public class CalendarTest extends Activity
 
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
+                DateTime end = event.getEnd().getDateTime();
                 if (start != null) {
                     // All-day events don't have start times, so just use
                     // the start date.
                     try {
-                        Date thing = sdf.parse(start.toString());
-                        Date thing2 = sdf.parse(event.getEnd().getDateTime().toString());
-                        Integer duration = (int) (thing2.getTime()-thing.getTime());
-                        duration = duration / 1000 / 60;
-                        c.setTime(thing);
-                        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-                        if(dayOfWeek == 3){
-                            mondayEventStrings.add(event.getSummary());
-                            mondayEventTimes.add(start.toString());
-                            mondayEventDurations.add(duration);
-                        }
-                        if(dayOfWeek == 4){
-                            tuesdayEventStrings.add(event.getSummary());
-                            tuesdayEventTimes.add(start.toString());
-                            tuesdayEventDurations.add(duration);
-                        }
+                        Date startD = sdf.parse(start.toString());
+                        Date endD = sdf.parse(end.toString());
+                        eventNames.add(event.getSummary());
+                        eventStartTimesMth.add(startD.getMonth());
+                        eventStartTimesD.add(startD.getDate());
+                        eventStartTimesH.add(startD.getHours());
+                        eventStartTimesM.add(startD.getMinutes());
+                        eventEndTimesM.add(endD.getMinutes());
+                        eventEndTimesH.add(endD.getHours());
 
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
-                eventStrings.add(
-                        String.format("%s (%s)", event.getSummary(), start));
+
             }
             Intent i = new Intent(getApplicationContext(), EventVizTest.class);
             Bundle extras = new Bundle();
-            extras.putStringArrayList("tuesdayEventSummaries", tuesdayEventStrings);
-            extras.putStringArrayList("mondayEventSummaries", mondayEventStrings);
-            extras.putStringArrayList("mondayEventTimes", mondayEventTimes);
-            extras.putStringArrayList("tuesdayEventTimes", tuesdayEventTimes);
-            extras.putIntegerArrayList("mondayEventDurations", mondayEventDurations);
-            extras.putIntegerArrayList("tuesdayEventDurations", tuesdayEventDurations);
+            extras.putInt("eventColor", eventColor);
+            extras.putInt("textColor", textColor);
+            extras.putInt("backgroundColor", backgroundColor);
+            extras.putStringArrayList("eventNames", eventNames);
+            extras.putIntegerArrayList("eventStartTimesMth", eventStartTimesMth);
+            extras.putIntegerArrayList("eventStartTimesD", eventStartTimesD);
+            extras.putIntegerArrayList("eventStartTimesH", eventStartTimesH);
+            extras.putIntegerArrayList("eventStartTimesM", eventStartTimesM);
+            extras.putIntegerArrayList("eventEndTimesH", eventEndTimesH);
+            extras.putIntegerArrayList("eventEndTimesM", eventEndTimesM);
             i.putExtras(extras);
             startActivity(i);
 
-            return eventStrings;
+            return null;
         }
 
 

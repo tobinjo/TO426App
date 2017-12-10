@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.johntobin.thescheduleviz">
 
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -38,7 +39,7 @@
         -->
 
         <activity android:name=".PreviewActivity" />
-        <activity android:name=".WeekView" />
+        <activity android:name=".WeekViewActivity"></activity>
         <activity android:name=".SplashPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -20,8 +20,8 @@ public class ImportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_import);
 
         buttonImportGoogleCalendar = (Button) findViewById(R.id.buttonImportGoogleCalendar);
-        buttonImportFromICal = (Button) findViewById(R.id.buttonImportFromICal);
-        buttonManuallyImport = (Button) findViewById(R.id.buttonManuallyImport);
+        //buttonImportFromICal = (Button) findViewById(R.id.buttonImportFromICal);
+        //buttonManuallyImport = (Button) findViewById(R.id.buttonManuallyImport);
 
         buttonBackFromImport = (Button) findViewById(R.id.buttonBackFromImport); //jasmine added back button
 

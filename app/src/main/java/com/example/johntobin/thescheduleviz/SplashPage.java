@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.api.services.calendar.model.CalendarNotification;
+
 public class SplashPage extends Activity {
 
     private Button buttonbegin;
@@ -22,15 +24,13 @@ public class SplashPage extends Activity {
                 launchActivity();
             }
 
+        });
 
-});
-
-}
-
+    }
 
     private void launchActivity() {
 
-        Intent intent = new Intent(this, ImportActivity.class);
+        Intent intent = new Intent(this, CalendarTest.class);
         startActivity(intent);
     }
 }

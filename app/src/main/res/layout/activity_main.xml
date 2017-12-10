@@ -24,6 +24,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+
     <Button
         android:id="@+id/screenshotTest"
         android:layout_width="244dp"
@@ -41,6 +43,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.268" />
+
+    <Button
+        android:id="@+id/goToCalendarTest2"
+        android:layout_width="247dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/roundbutton"
+        android:text="Go to the calendar test v2"
+        android:textColor="@android:color/white" />
 
 
 </android.support.constraint.ConstraintLayout>

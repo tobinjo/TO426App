@@ -21,6 +21,15 @@ import android.graphics.Color;
 
 import org.w3c.dom.Text;
 
+import com.alamkanak.weekview.DateTimeInterpreter;
+import com.alamkanak.weekview.MonthLoader;
+import com.alamkanak.weekview.WeekView;
+import com.alamkanak.weekview.WeekViewEvent;
+
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,150 +41,60 @@ import java.io.ByteArrayInputStream;
 @TargetApi(24)
 public class EventVizTest extends Activity {
 
-    private String[] day1summaries;
-    private String[] day1times;
-    private Integer[] day1durations;
-    private String[] day2summaries;
-    private String[] day2times;
-    private Integer[] day2durations;
-    private String[] day3summaries;
-    private String[] day3times;
-    private Integer[] day3durations;
-
     private SimpleDateFormat sdfone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     private SimpleDateFormat sdftwo = new SimpleDateFormat("HH:mm:ss");
+
+    private WeekView mWeekView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_display);
-        //LinearLayout ml = new LinearLayout(this); //master LinearLayout
-        //ml.setOrientation(LinearLayout.VERTICAL);
+        mWeekView = (WeekView) findViewById(R.id.weekView2);
 
-        LinearLayout ll = (LinearLayout) findViewById(R.id.subLL);
-        int llheight = ll.getMeasuredHeight();
-
-
-        // Get variables passed in through intent.
-        int daycount = 0;
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            ArrayList<String> tl = extras.getStringArrayList("mondayEventSummaries");
-            day1summaries = (tl != null) ? tl.toArray(new String[tl.size()]) : null;
-            tl = extras.getStringArrayList("mondayEventTimes");
-            day1times = (tl != null) ? tl.toArray(new String[tl.size()]) : null;
-            daycount += (day1times != null) ? 1 : 0;
-            ArrayList<Integer> durations = extras.getIntegerArrayList("mondayEventDurations");
-            day1durations = (durations != null) ? durations.toArray(new Integer[durations.size()]) : null;
+        int textColor = extras.getInt("textColor");
+        mWeekView.setEventTextColor(textColor);
+        final int eventColor = extras.getInt("eventColor");
+        int backgroundColor = extras.getInt("backgroundColor");
+        mWeekView.setDayBackgroundColor(backgroundColor);
 
 
-            tl = extras.getStringArrayList("tuesdayEventSummaries");
-            day2summaries = (tl != null) ? tl.toArray(new String[tl.size()]): null;
-            tl = extras.getStringArrayList("tuesdayEventTimes");
-            day2times = (tl != null) ? tl.toArray(new String[tl.size()]) : null;
-            daycount += (day2times != null) ? 1 : 0;
-            durations = extras.getIntegerArrayList("tuesdayEventDurations");
-            day2durations = (durations != null) ? durations.toArray(new Integer[durations.size()]) : null;
+        mWeekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
+            @Override
+            public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+                List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+                Bundle extras = getIntent().getExtras();
+                if (extras != null){
+                    ArrayList<String> eventNames = extras.getStringArrayList("eventNames");
+                    ArrayList<Integer> eventStartTimesMth = extras.getIntegerArrayList("eventStartTimesMth");
+                    ArrayList<Integer> eventStartTimesD = extras.getIntegerArrayList("eventStartTimesD");
+                    ArrayList<Integer> eventStartTimesH = extras.getIntegerArrayList("eventStartTimesH");
+                    ArrayList<Integer> eventStartTimesM = extras.getIntegerArrayList("eventStartTimesM");
+                    ArrayList<Integer> eventEndTimesH = extras.getIntegerArrayList("eventEndTimesH");
+                    ArrayList<Integer> eventEndTimesM = extras.getIntegerArrayList("eventEndTimesM");
 
-            tl = extras.getStringArrayList("day3times");
-            day3summaries = (tl != null) ? tl.toArray(new String[tl.size()]): null;
-            tl = extras.getStringArrayList("day3summaries");
-            day3times = (tl != null) ? tl.toArray(new String[tl.size()]) : null;
-            daycount += (day3times != null) ? 1 : 0;
-            durations = extras.getIntegerArrayList("wednesdayEventDurations");
-            day3durations = (durations != null) ? durations.toArray(new Integer[durations.size()]) : null;
-            //The key argument here must match that used in the other activity
-        }
-
-        String[][] allSummaries = {day1summaries, day2summaries, day3summaries};
-        String[][] allTimes = {day1times, day2times, day3times};
-        Integer[][] allDurations = {day1durations, day2durations, day3durations};
-
-        Date midnight = new Date();
-        try {
-            midnight = sdftwo.parse("00:00:00");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        float[][] allWeights = {new float[(day1summaries != null) ? day1summaries.length : 0], new float[(day2summaries != null) ? day2summaries.length : 0], new float[(day3summaries != null) ? day3summaries.length : 0]};
-
-        int daysminutes = 24*60;
-
-        for(int k = 0; k < allSummaries.length; ++k){
-            int remaining = 100;
-            for(int i = 0; i < ((allSummaries[k] != null) ? allSummaries[k].length : 0); ++i){
-                Date datetosubtract = new Date();
-                try {
-                    datetosubtract = sdfone.parse(allTimes[k][i]);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                float diff = (datetosubtract.getHours() - midnight.getHours())*60 + (datetosubtract.getMinutes() - midnight.getMinutes());
-                float pct = (diff/daysminutes);
-                allWeights[k][i] = pct;
-            }
-            if(allSummaries[k] != null){
-                LinearLayout l1 = new LinearLayout(this);
-                l1.setOrientation(LinearLayout.VERTICAL);
-                LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-                lparams.weight = 50;
-                l1.setLayoutParams(lparams);
-
-                // Make constraint layout.
-                ConstraintLayout c1 = new ConstraintLayout(this);
-                ConstraintLayout.LayoutParams cparams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
-                cparams.orientation = ConstraintLayout.LayoutParams.VERTICAL;
-                c1.setLayoutParams(cparams);
-
-
-                for(int i = 0; i < allSummaries[k].length; ++i){
-                    Guideline topguide = new Guideline(this);
-                    ConstraintLayout.LayoutParams gllptop = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
-                    gllptop.guidePercent = allWeights[k][i];
-                    gllptop.orientation = ConstraintLayout.LayoutParams.HORIZONTAL;
-                    topguide.setLayoutParams(gllptop);
-                    topguide.setId(View.generateViewId());
-                    c1.addView(topguide);
-
-                    float textheightpct = ((float) allDurations[k][i]) / daysminutes;
-                    Guideline bottomguide = new Guideline(this);
-                    ConstraintLayout.LayoutParams gllpbot = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
-                    gllpbot.guidePercent = allWeights[k][i] + textheightpct;
-                    gllpbot.orientation = ConstraintLayout.LayoutParams.HORIZONTAL;
-                    bottomguide.setLayoutParams(gllpbot);
-                    bottomguide.setId(View.generateViewId());
-                    c1.addView(bottomguide);
-
-                    TextView newEvent = new TextView(this);
-                    newEvent.setText(allSummaries[k][i]);
-                    if(i % 2 == 0){
-                        newEvent.setBackgroundColor(Color.parseColor("#424bf4"));
-                    }
-                    else{
-                        newEvent.setBackgroundColor(Color.parseColor("#f44141"));
+                    for(int i = 0; i < eventNames.size(); ++i){
+                        Calendar startTime = Calendar.getInstance();
+                        startTime.set(Calendar.DAY_OF_MONTH, eventStartTimesD.get(i));
+                        startTime.set(Calendar.HOUR_OF_DAY, eventStartTimesH.get(i));
+                        startTime.set(Calendar.MINUTE, eventStartTimesM.get(i));
+                        startTime.set(Calendar.MONTH, newMonth-1);
+                        startTime.set(Calendar.YEAR, newYear);
+                        Calendar endTime = (Calendar) startTime.clone();
+                        endTime.set(Calendar.HOUR_OF_DAY, eventEndTimesH.get(i));
+                        endTime.set(Calendar.MINUTE, eventEndTimesM.get(i));
+                        WeekViewEvent event = new WeekViewEvent(i, eventNames.get(i), startTime, endTime);
+                        event.setColor(eventColor);
+                        events.add(event);
                     }
 
-                    ConstraintLayout.LayoutParams tparams = new ConstraintLayout.LayoutParams(600, 0);
-                    tparams.topToBottom = topguide.getId();
-                    //tparams.endToEnd = bottomguide.getId();
-                    tparams.bottomMargin = (int) textheightpct;
-                    //tparams.endToEnd = bottomguide.getId();
-                    tparams.verticalWeight = 1;
-                    newEvent.setLayoutParams(tparams);
-                    c1.addView(newEvent);
                 }
-                l1.addView(c1);
 
-
-
-                //TextView tevent = new TextView(this);
-                //tevent.setText("This is test text.");
-                //l1.addView(tevent);
-                ll.addView(l1);
-
+                return events;
             }
-        }
+        });
+
 
         final Context whatever = this;
 
@@ -201,9 +120,6 @@ public class EventVizTest extends Activity {
             }
         });
 
-        //ml.addView(ll);
-        //ml.addView(ssButton);
-        //setContentView(ll);
 
     }
 }
