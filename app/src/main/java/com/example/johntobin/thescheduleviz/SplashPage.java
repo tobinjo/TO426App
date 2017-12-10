@@ -30,7 +30,7 @@ public class SplashPage extends Activity {
 
     private void launchActivity() {
 
-        Intent intent = new Intent(this, ImportActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }
