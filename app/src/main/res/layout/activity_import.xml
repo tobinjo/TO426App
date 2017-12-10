@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.johntobin.thescheduleviz.ImportActivity"
     android:background="@color/colorToucanOrange"
-    >
+    tools:context="com.example.johntobin.thescheduleviz.ImportActivity">
 
     <Button
         android:id="@+id/buttonImportGoogleCalendar"
@@ -17,16 +16,15 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/roundbutton"
         android:elevation="30dp"
         android:text="Import Google Calendar"
-        android:background="@drawable/roundbutton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.176"
-        />
+        app:layout_constraintVertical_bias="0.176" />
 
     <Button
         android:id="@+id/buttonImportFromICal"
@@ -34,14 +32,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
+        android:background="@drawable/roundbutton"
         android:elevation="30dp"
         android:text="Import iCalendar"
-        android:background="@drawable/roundbutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonImportGoogleCalendar"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/buttonImportGoogleCalendar" />
 
     <Button
         android:id="@+id/buttonManuallyImport"
@@ -61,5 +58,18 @@
         app:layout_constraintVertical_bias="0.0"
 
         />
+
+    <Button
+        android:id="@+id/buttonBackFromImport"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonManuallyImport" />
 
 </android.support.constraint.ConstraintLayout>
