@@ -83,6 +83,7 @@ public class CalendarTest extends Activity
     private Button backgroundColorButton;
     private Button textColorButton;
     private Button eventColorButton;
+    private Button backButton;
 
     private int backgroundColor;
     private int textColor;
@@ -97,9 +98,23 @@ public class CalendarTest extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import); // jasmine: should allow you to see calendar_test xml?
 
+        backgroundColor = R.color.colorOffWhite;
+        textColor = R.color.colorPrimaryDark;
+        eventColor = R.color.colorToucanOrange;
+
         backgroundColorButton = (Button) findViewById(R.id.setBackgroundColorButton);
         textColorButton = (Button) findViewById(R.id.setTextColorButton);
         eventColorButton = (Button) findViewById(R.id.setEventColorButton);
+        backButton = (Button) findViewById(R.id.buttonBackFromImport);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), SplashPage.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
         final ColorPicker cp = new ColorPicker(CalendarTest.this, 100, 100, 100, 100);
 
@@ -463,6 +478,7 @@ public class CalendarTest extends Activity
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
             ArrayList<String> eventNames = new ArrayList<String>();
+            ArrayList<String> eventLocations = new ArrayList<String>();
             ArrayList<Integer> eventStartTimesMth = new ArrayList<Integer>();
             ArrayList<Integer> eventStartTimesD = new ArrayList<Integer>();
             ArrayList<Integer> eventStartTimesH = new ArrayList<Integer>();
@@ -481,6 +497,7 @@ public class CalendarTest extends Activity
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
                 DateTime end = event.getEnd().getDateTime();
+
                 if (start != null) {
                     // All-day events don't have start times, so just use
                     // the start date.
@@ -488,6 +505,7 @@ public class CalendarTest extends Activity
                         Date startD = sdf.parse(start.toString());
                         Date endD = sdf.parse(end.toString());
                         eventNames.add(event.getSummary());
+                        eventLocations.add(event.getLocation());
                         eventStartTimesMth.add(startD.getMonth());
                         eventStartTimesD.add(startD.getDate());
                         eventStartTimesH.add(startD.getHours());
@@ -507,6 +525,7 @@ public class CalendarTest extends Activity
             extras.putInt("textColor", textColor);
             extras.putInt("backgroundColor", backgroundColor);
             extras.putStringArrayList("eventNames", eventNames);
+            extras.putStringArrayList("eventLocations", eventLocations);
             extras.putIntegerArrayList("eventStartTimesMth", eventStartTimesMth);
             extras.putIntegerArrayList("eventStartTimesD", eventStartTimesD);
             extras.putIntegerArrayList("eventStartTimesH", eventStartTimesH);

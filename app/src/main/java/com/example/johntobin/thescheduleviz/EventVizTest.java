@@ -1,6 +1,7 @@
 package com.example.johntobin.thescheduleviz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -38,6 +39,18 @@ import java.util.ArrayList;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 
+
+/*
+    Note for Sanjeev:
+    In order to have this activity properly run on your local machine, you need to get an
+    API key for Google calendar.  The steps to do this can be found here:
+    https://developers.google.com/google-apps/calendar/quickstart/android
+
+    It should be noted that this isn't a bug/oversight within our application.  If our app were
+    to be pushed to the Google play store for other users to use we would obtain a production
+    key that would authorize multiple users to make requests to the API.
+ */
+
 @TargetApi(24)
 public class EventVizTest extends Activity {
 
@@ -46,6 +59,8 @@ public class EventVizTest extends Activity {
 
     private WeekView mWeekView;
 
+    private Button backButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,11 +68,22 @@ public class EventVizTest extends Activity {
         mWeekView = (WeekView) findViewById(R.id.weekView2);
 
         Bundle extras = getIntent().getExtras();
-        int textColor = extras.getInt("textColor");
+        int textColor = extras.getInt("textColor", R.color.colorPrimaryDark);
         mWeekView.setEventTextColor(textColor);
-        final int eventColor = extras.getInt("eventColor");
-        int backgroundColor = extras.getInt("backgroundColor");
+        final int eventColor = extras.getInt("eventColor", R.color.colorToucanOrange);
+        int backgroundColor = extras.getInt("backgroundColor", R.color.colorOffWhite);
         mWeekView.setDayBackgroundColor(backgroundColor);
+        mWeekView.setTodayBackgroundColor(backgroundColor);
+
+        backButton = (Button) findViewById(R.id.goBack);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), CalendarTest.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
 
         mWeekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
@@ -67,6 +93,7 @@ public class EventVizTest extends Activity {
                 Bundle extras = getIntent().getExtras();
                 if (extras != null){
                     ArrayList<String> eventNames = extras.getStringArrayList("eventNames");
+                    ArrayList<String> eventLocations = extras.getStringArrayList("eventLocations");
                     ArrayList<Integer> eventStartTimesMth = extras.getIntegerArrayList("eventStartTimesMth");
                     ArrayList<Integer> eventStartTimesD = extras.getIntegerArrayList("eventStartTimesD");
                     ArrayList<Integer> eventStartTimesH = extras.getIntegerArrayList("eventStartTimesH");
@@ -85,6 +112,7 @@ public class EventVizTest extends Activity {
                         endTime.set(Calendar.HOUR_OF_DAY, eventEndTimesH.get(i));
                         endTime.set(Calendar.MINUTE, eventEndTimesM.get(i));
                         WeekViewEvent event = new WeekViewEvent(i, eventNames.get(i), startTime, endTime);
+                        event.setLocation(eventLocations.get(i));
                         event.setColor(eventColor);
                         events.add(event);
                     }
@@ -104,6 +132,7 @@ public class EventVizTest extends Activity {
             @Override
             public void onClick(View view){
                 ssButton.setVisibility(View.GONE);
+                backButton.setVisibility(View.GONE);
                 View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
                 Bitmap ss = MainActivity.getScreenShot(rootView);
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -117,6 +146,7 @@ public class EventVizTest extends Activity {
                     e.printStackTrace();
                 }
                 ssButton.setVisibility(View.VISIBLE);
+                backButton.setVisibility(View.VISIBLE);
             }
         });
 

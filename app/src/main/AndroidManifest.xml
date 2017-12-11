@@ -25,9 +25,7 @@
         <activity
             android:name=".CalendarTest"
             android:label="Google Calendar API Android Quickstart" />
-        <activity android:name=".WelcomescreenactivityActivity" />
         <activity android:name=".ImportActivity" />
-        <activity android:name=".WeeklyRoundupActivity" />
         <activity android:name=".EventVizTest" />
         <!--
         <intent-filter>
@@ -38,7 +36,6 @@
         </activity>
         -->
 
-        <activity android:name=".PreviewActivity" />
         <activity android:name=".WeekViewActivity"></activity>
         <activity android:name=".SplashPage">
             <intent-filter>
